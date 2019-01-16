@@ -1,22 +1,27 @@
 <template>
-  <div id="app">
-    <router-view/>
+  <div>
+    <component v-bind:is="layout"></component>
+    Layout used: <strong>{{ layout }} </strong>
   </div>
-</template>
 
+</template>
 <script>
+import Default from './components/Layouts/Default'
+import UserLayout from './components/Layouts/User'
+
 export default {
-  name: 'App'
+  name: 'App',
+  computed: {
+    layout () {
+      return this.$store.getters.layout
+    },
+    currentUser () {
+      return this.$store.getters.token
+    }
+  },
+  components: {
+    'default': Default,
+    'user': UserLayout
+  }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
