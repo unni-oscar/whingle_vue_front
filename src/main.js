@@ -3,13 +3,23 @@
 import Vue from 'vue'
 import App from './App'
 import { router } from './router'
-import {store} from './store'
+import  { store }  from './store'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
+import ApiService from './services/api.service'
+import { TokenService } from './services/storage.service'
 
 Vue.use(Buefy)
 
 Vue.config.productionTip = false
+
+// Set the base URL of the API
+ApiService.init(process.env.API_URL)
+
+// If token exists set header
+if (TokenService.getToken()) {
+  ApiService.setHeader()
+}
 
 /* eslint-disable no-new */
 new Vue({

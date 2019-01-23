@@ -27,14 +27,15 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <router-link to="/register">
+            <router-link to="/register" v-if="!loggedIn">
                 <a class="button is-primary">
                 <strong>Sign up</strong>
                 </a>
             </router-link>
-            <router-link to="/login">
+            <router-link to="/login" v-if="!loggedIn">
                 <a class="button is-light">Log in</a>
             </router-link>
+                <a v-if="loggedIn" class="button is-danger" @click="doLogout">Logout</a>
           </div>
         </div>
       </div>
@@ -42,5 +43,22 @@
   </nav>
 </template>
 <script>
-export default {}
+import {store} from '../../store'
+import {mapGetters, mapActions, mapState} from "vuex"
+export default {
+  computed: {
+    ...mapGetters({authenticated : 'auth/loggedIn'}),
+    loggedIn () {
+      return this.authenticated
+    }
+  },
+  methods: {
+    ...mapActions({'logout': 'auth/logout'}),
+
+    doLogout () {
+      this.logout()      
+    }
+  }
+  // On logout store.commit('logout) and then redirect to login page with a success message
+}
 </script>

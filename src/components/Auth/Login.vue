@@ -27,7 +27,8 @@
                 <!-- <p class="help">This username is available</p> -->
               </div>
               <div class="field">
-                <a class="button is-primary">Login</a>
+                <button type="submit" class="button is-primary" value="Submit">Submit</button>
+                
               </div>
             </div>
           </div>
@@ -38,19 +39,34 @@
 </template>
 <script>
 // import axios from 'axios'
+import { mapGetters, mapActions} from 'vuex'
 export default {
+  name: 'login',
   data () {
     return {
-      email: '',
-      password: '',
+      email: 'unnikrishnanes@gmail.com',
+      password: '123456',
       submitted: false
     }
   },
+  computed: {
+    ...mapGetters( [
+      'authenticating',
+      'authenticationError',
+      'authenticationErrorCode'
+    ])
+  },
   methods: {
+    ...mapActions(
+      { login : 'auth/login' }
+    ),
+
     handleSubmit () {
-      const { username, password } = this
-      console.log(username)
-      console.log(password)
+      // Call login service and emit store function and then redirect to to.actualPath
+      const { email, password } = this
+      if('' != email && '' != password) {
+        this.login({email, password})
+      }
     }
   }
 }

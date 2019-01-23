@@ -1,22 +1,23 @@
 <template>
   <div>
-    <component v-bind:is="layout"></component>
-    Layout used: <strong>{{ layout }} </strong>
+    <component v-bind:is="whichLayout"></component>
+    Layout used: <strong>{{ whichLayout }}</strong>
   </div>
 
 </template>
 <script>
+import { mapGetters } from "vuex"
 import Default from './components/Layouts/Default'
 import UserLayout from './components/Layouts/User'
 
 export default {
   name: 'App',
   computed: {
-    layout () {
-      return this.$store.getters.layout
-    },
-    currentUser () {
-      return this.$store.getters.token
+    ...mapGetters(
+      { layout : 'config/layout' }
+    ),
+    whichLayout () {
+      return this.layout
     }
   },
   components: {

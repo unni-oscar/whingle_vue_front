@@ -2,11 +2,12 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Shared/Home'
 import Login from '@/components/Auth/Login'
-// import Register from '@/components/Auth/Register'
+import { TokenService } from '@/services/storage.service'
 
 Vue.use(Router)
 
 export const router = new Router({
+  mode: 'history', // Removing # from the url
   routes: [
     {
       path: '/',
@@ -16,12 +17,14 @@ export const router = new Router({
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
+      meta: { onlyWhenLoggedOut: true }
     },
     {
       path: '/register',
       name: 'Register',
-      component: () => import('@/components/Auth/Register')
+      component: () => import('@/components/Auth/Register'),
+      meta: { onlyWhenLoggedOut: true }
     },
     {
       path: '/about',
@@ -48,28 +51,27 @@ export const router = new Router({
   ]
 })
 
-router.beforeEach((to, from, next) => {
-  // redirect to login page if not logged in and trying to access a restricted page
-  // const publicPages = ['/login', '/register']
-  // const authRequired = !publicPages.includes(to.path)
-  // // const loggedIn = localStorage.getItem('user')
-  // // if (authRequired && !loggedIn) {
-  // if (authRequired) {
-  //   return next('/login')
+/**
+ * Route checking for each request whether it requires user to be logged in or not
+ */
+router.beforeEach((to, from, next) => { 
+  const isPrivate = to.matched.some(record => record.meta.requiresAuth)
+  const onlyWhenLoggedOut = to.matched.some(record => record.meta.onlyWhenLoggedOut)
+  const loggedIn = TokenService.getToken()
+  
+  // const loggedIn = !!userToken.token
+  if (isPrivate && !loggedIn) {
+    return next({
+      path: '/login',
+      query: {redirect: to.fullPath}
+    })
+  }
+
+  // Do not allow user to visit login page or register page if they are logged in
+  // TODO: bypassing tempororily 
+  // if (loggedIn && onlyWhenLoggedOut) {
+  //   return next('/')
   // }
-  // next()
-  // if (to.matched.some(route => route.meta.requiresAuth) && !store.state.isLoggedIn) {
-  if (to.matched.some(route => route.meta.requiresAuth)) {
-    // redirect to login page
-    next({ name: 'login' })
-    return
-  }
-  // if logged in redirect to dashboard
-  // if(to.path === '/login' && store.state.isLoggedIn) {
-  if (to.path === '/login') {
-    next({ name: 'dashboard' })
-    return
-  }
 
   next()
 })
