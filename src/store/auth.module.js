@@ -44,14 +44,22 @@ const actions = {
             return false
         }
     },
-
+    /**
+     * 
+     * @exception AuthenticationError 
+     */
     logout({commit}) {
-        UserService.logout()
-        commit('logoutSuccess')
-        // this.$router.push('/login')
-        // router.push(router.history.current.query.redirect || '/about');
-        router.replace('/login')
-        // return true;
+        try{
+            UserService.logout()
+            commit('logoutSuccess')
+            router.replace('/login')
+        } catch(error) {
+            // if (e instanceof AuthenticationError) {
+            //     commit('loginError', {errorCode: e.errorCode, errorMessage: e.message })
+            // }
+            // return false
+            console.log(error)
+        }
     }
 }
 

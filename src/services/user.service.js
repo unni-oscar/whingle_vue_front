@@ -86,11 +86,18 @@ const UserService = {
      * 
      * Will also remove `Authorization Bearer <token>` header from future requests.
     **/
-    logout() {
-        // Remove the token and remove Authorization header from Api Service as well 
-        TokenService.removeToken()
-        TokenService.removeRefreshToken()
-        ApiService.removeHeader()
+    async logout() {
+        try{
+            const response = await ApiService.post('/logout')  
+            // Remove the token and remove Authorization header from Api Service as well 
+            TokenService.removeToken()
+            TokenService.removeRefreshToken()
+            ApiService.removeHeader()
+        } catch(error) {
+            console.log(error)
+            //throw new AuthenticationError(error.response.status, error.response.data.detail)
+        }
+        
         
         // NOTE: Again, we'll cover the 401 Interceptor a bit later. 
         // ApiService.unmount401Interceptor()
