@@ -8,8 +8,10 @@ import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 import ApiService from './services/api.service'
 import { TokenService } from './services/storage.service'
+import VeeValidate from 'vee-validate'
 
 Vue.use(Buefy)
+Vue.use(VeeValidate)
 
 Vue.config.productionTip = false
 

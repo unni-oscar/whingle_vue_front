@@ -10,7 +10,9 @@
               <div class="field">
                 <label class="label">Name</label>
                 <div class="control">
-                  <input class="input" type="text" v-model="profileForm.name" placeholder="Name">
+                  <input class="input" type="text" name="name" id="name" v-validate="'required|alpha_spaces|max:40'" v-model="profileForm.name" placeholder="Name">
+                  <p v-show="errors.has('name')" class="has-text-danger"> {{ errors.first('name') }}</p>
+
                 </div>
                 <!-- <p class="help">This username is available</p> -->
               </div>
@@ -60,10 +62,11 @@
               <div class="field">
                 <label class="label">Email</label>
                 <div class="control has-icons-left">
-                  <input class="input" type="text" v-model="profileForm.email" placeholder="Email">
+                  <input class="input" name="email" id="email" type="text" v-validate="'required|email'" v-model="profileForm.email" placeholder="Email">
                   <span class="icon is-small is-left">
                     <i class="fas fa-envelope"></i>
                   </span>
+                   <p v-show="errors.has('email')" class="has-text-danger"> {{ errors.first('email') }}</p>
                 </div>
                 <!-- <p class="help">This username is available</p> -->
               </div>
@@ -72,13 +75,16 @@
                 <div class="control has-icons-left">
                   <input
                     class="input"
+                    name="password"
                     type="password"
                     v-model="profileForm.password"
                     placeholder="Password"
+                    v-validate="'required|min:5|max:30'"
                   >
                   <span class="icon is-small is-left">
                     <i class="fas fa-user"></i>
                   </span>
+                   <p v-show="errors.has('password')" class="has-text-danger"> {{ errors.first('password') }}</p>
                 </div>
                 <!-- <p class="help">This username is available</p> -->
               </div>
@@ -118,20 +124,15 @@ import Dropdown from "../Elements/Html/Dropdown";
 import Radiobutton from "../Elements/Html/RadioButton";
 
 // DOB selectable only if the user has completed 18 year
-var oldY = moment()
-  .subtract(18, "year")
-  .format("YYYY");
-var showY = moment()
-  .subtract(22, "year")
-  .format("YYYY");
+var oldY = moment().subtract(18, "year").format("YYYY");
+var showY = moment().subtract(22, "year").format("YYYY");
 // subtracting 1 as the index start from 0
-var oldM =
-  moment()
-    .subtract(18, "year")
-    .format("MM") - 1;
-var oldD = moment()
-  .subtract(18, "year")
-  .format("DD");
+var oldM = moment().subtract(18, "year").format("MM") - 1;
+var oldD = moment().subtract(18, "year").format("DD");
+
+import { mapActions} from 'vuex'
+import { UserService, AuthenticationError } from "../../services/user.service.js";
+
 export default {
   data() {
     return {
@@ -159,14 +160,14 @@ export default {
     }
   },
   created() {
-    store.commit("setLayout", "user");
+    // store.commit("setLayout", "user");
   },
   mounted() {
     // TODO : Change this to common config fiel with header type redefined
     // https://forum.vuejs.org/t/add-header-token-to-axios-requests-after-login-action-in-vuex/38834
     axios
       .get(
-        process.env.API_URL + "/auth/register",
+        process.env.API_URL + "/register",
         { name: this.name, email: this.email, password: this.password },
         { headers: { "X-Requested-With": "XMLHttpRequest" } }
       )
@@ -175,23 +176,42 @@ export default {
       });
   },
   methods: {
+    ...mapActions(
+      { register : 'auth/register' }
+    ),
     moment: function() {
       return moment();
     },
     setValue: function(obj) {
       this.profileForm[obj.name] = obj.value;
     },
-    // TODO: without headers also it works , so make sure to remove it if not necessary
     handleRegister() {
-      store.commit("setLayout", "user");
-      axios
-        .post(
-          process.env.API_URL + "/auth/register",
-          { name: this.name, email: this.email, password: this.password },
-          { headers: { "X-Requested-With": "XMLHttpRequest" } }
-        )
-        .then(response => console.log(response))
-        .catch(error => console.log(error));
+      this.$validator.validateAll().then((result) => {
+        if(result) {
+          const res = UserService.register({
+            name: this.profileForm.name,
+            email: this.profileForm.email,
+            password: this.profileForm.password
+          }).then(r => {
+            // TODO: SHow details based on success
+          })
+          .catch(e => {
+            var err = e.response.data.message
+            let vm = this
+            // Adding server side error to veevalidate error bag   
+            Object.keys(err).forEach(function(item){
+              vm.errors.add({
+                field: item,
+                msg: err[item][0]
+              })
+            })     
+          })
+        } else {
+          console.log('Validation error')
+        }
+      })
+      //store.commit("setLayout", "user");
+     
     }
   },
   components: {

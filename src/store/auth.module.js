@@ -28,7 +28,11 @@ const getters = {
 }
 
 const actions = {
-    
+    /**
+     * 
+     * @param email` 
+     * @param password
+     */
     async login({commit}, {email,password}) {
         commit('loginRequest');
         try{
@@ -44,6 +48,7 @@ const actions = {
             return false
         }
     },
+    
     /**
      * 
      * @exception AuthenticationError 
