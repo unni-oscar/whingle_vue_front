@@ -46,7 +46,18 @@ const UserService = {
             //throw new AuthenticationError(error.response.status, error.response.data.detail)
         }
     },
+    async register(userData) {
 
+        //console.log(userData)
+        // try{
+        //     const response = await ApiService.post('/register', userData ) 
+        //     return response
+        // }catch(error) { 
+        //     return error.response
+        // }
+
+        return await ApiService.post('/register', userData ) 
+    },
     /**
      * Refresh the access token.
     **/
