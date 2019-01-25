@@ -23,6 +23,8 @@
         <router-link to="/about"><a class="navbar-item">About</a></router-link>
         <router-link to="/search"><a class="navbar-item">Search</a></router-link>
         <router-link to="/pricing"><a class="navbar-item">Pricing</a></router-link>
+        <router-link to="/user"><a class="navbar-item">Dashboard</a></router-link>
+        <router-link to="/user/profile"><a class="navbar-item">Profile</a></router-link>
       </div>
       <div class="navbar-end">
         <div class="navbar-item">

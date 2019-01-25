@@ -9,7 +9,10 @@ const getters = {
     },
 }
 
-const actions = {    
+const actions = {  
+    changeLayout({commit}, layout)  {
+        commit.setLayout(layout)
+    }
 }
 
 const mutations = {

@@ -1,7 +1,8 @@
 <template>
   <div>
     <wh-header></wh-header>
-    <router-view></router-view>
+    <br>
+    <router-view> </router-view>
     <wh-footer></wh-footer>
   </div>
 </template>
