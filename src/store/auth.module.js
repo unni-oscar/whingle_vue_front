@@ -39,7 +39,7 @@ const actions = {
             const token = await UserService.login(email, password)
             commit('loginSuccess', token)
             // Redirect the user to the page he first tried to visit, else to dashboard
-            router.push(router.history.current.query.redirect || '/dashboard');
+            router.push(router.history.current.query.redirect || '/user');
             return true;
         } catch(e) {
             if (e instanceof AuthenticationError) {
@@ -89,7 +89,6 @@ const mutations = {
     logoutSuccess(state) {
         state.accessToken =''
     }
-
 }
 
 export const auth = {

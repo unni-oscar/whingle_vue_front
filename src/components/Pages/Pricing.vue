@@ -10,5 +10,9 @@
 </template>
 
 <script>
-export default {}
+export default {
+  beforeCreate () {
+        this.$store.commit('config/setLayout', 'default')
+    }
+}
 </script>

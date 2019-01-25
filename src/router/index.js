@@ -43,10 +43,33 @@ export const router = new Router({
       meta: { requiresAuth: true }
     },
     {
-      path: '/dashboard',
-      name: 'Dashboard',
+      path: '/user',
       component: () => import('@/components/User/Dashboard'),
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true },
+      children:[
+        {
+          path:'',
+          name:'Dashboard',
+          components: {
+            mainarea: () => import('@/components/User/Summary')
+          }
+        },
+        {
+          path: 'profile',
+          name: 'Profile',
+          components: {
+            mainarea: () => import('@/components/User/Profile')
+          }
+        },
+        {
+          path: 'change-password',
+          name: 'ChangePassword',
+          components: {
+            mainarea: () => import('@/components/User/ChangePassword')
+          }
+        }
+
+      ]
     }
   ]
 })
