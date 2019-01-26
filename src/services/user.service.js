@@ -99,7 +99,7 @@ const UserService = {
     **/
     async logout() {
         try{
-            const response = await ApiService.post('/logout')  
+            //const response = await ApiService.post('/logout')  
             // Remove the token and remove Authorization header from Api Service as well 
             TokenService.removeToken()
             TokenService.removeRefreshToken()
@@ -112,6 +112,10 @@ const UserService = {
         
         // NOTE: Again, we'll cover the 401 Interceptor a bit later. 
         // ApiService.unmount401Interceptor()
+    },
+    async getUser() {
+        const response = await ApiService.post('/me')
+        return response
     }
 }
 
