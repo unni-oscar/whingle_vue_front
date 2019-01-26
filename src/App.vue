@@ -9,7 +9,7 @@
 import { mapGetters } from "vuex"
 import Default from './components/Layouts/Default'
 import UserLayout from './components/Layouts/User'
-
+import axios from 'axios'
 export default {
   name: 'App',
   computed: {
@@ -23,6 +23,19 @@ export default {
   components: {
     'default': Default,
     'user': UserLayout
+  },
+  created(){
+    axios.interceptors.response.use(
+      response => response,
+      error => {
+        const {status, config} = error.response;
+        console.log(error.response)
+        if (status === 401 && config && !config.__isRetryRequest ) {
+          this.$store.dispatch('auth/logout')
+        } 
+        return Promise.reject(error);
+      }
+    )
   }
 }
 </script>
