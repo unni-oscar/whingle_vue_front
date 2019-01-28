@@ -2,6 +2,7 @@
   <section class="hero">
     <div class="hero-body">
       <div class="container">
+        <p class="has-text-danger">{{authenticationError}}</p>
         <form @submit.prevent="handleSubmit">
           <h1 class="title">Login</h1>
           <div class="columns is-vcentered">
@@ -50,11 +51,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters( [
-      'authenticating',
-      'authenticationError',
-      'authenticationErrorCode'
-    ])
+    ...mapGetters( {
+      authenticationError : 'auth/authenticationError'
+    })
   },
   methods: {
     ...mapActions(
@@ -65,9 +64,11 @@ export default {
       // Call login service and emit store function and then redirect to to.actualPath
       const { email, password } = this
       if('' != email && '' != password) {
-        this.login({email, password})
+        this.login({email, password}) 
+        this.password =''
       }
     }
   }
 }
 </script>
+// https://medium.com/@zitko/structuring-a-vue-project-authentication-87032e5bfe16

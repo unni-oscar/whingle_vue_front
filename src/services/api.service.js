@@ -44,9 +44,9 @@ const ApiService = {
      *    - password
     **/
     customRequest(data) {
-        console.log('in api service')
         return axios(data)
     }
 }
 
 export default ApiService
+// https://medium.com/@zitko/structuring-a-vue-project-authentication-87032e5bfe16

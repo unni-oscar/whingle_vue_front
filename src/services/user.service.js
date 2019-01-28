@@ -35,15 +35,10 @@ const UserService = {
             TokenService.saveToken(response.data.access_token)
             TokenService.saveRefreshToken(response.data.access_token)
             ApiService.setHeader()
-            
-            // NOTE: We haven't covered this yet in our ApiService 
-            //       but don't worry about this just yet - I'll come back to it later
-            // ApiService.mount401Interceptor();
-
             return response.data.access_token
         } catch (error) {
-            console.log(error)
-            //throw new AuthenticationError(error.response.status, error.response.data.detail)
+            //return Promise.reject(error.response);
+            throw new AuthenticationError(error.response.status, error.response.data.message)
         }
     },
     async register(userData) {
