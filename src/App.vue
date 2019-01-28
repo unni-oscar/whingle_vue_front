@@ -29,7 +29,6 @@ export default {
       response => response,
       error => {
         const {status, config} = error.response;
-        console.log(error.response)
         if (status === 401 && config && !config.__isRetryRequest ) {
           this.$store.dispatch('auth/logout')
         } 

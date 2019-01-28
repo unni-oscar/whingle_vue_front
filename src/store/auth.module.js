@@ -42,9 +42,7 @@ const actions = {
             router.push(router.history.current.query.redirect || '/user');
             return true;
         } catch(e) {
-            if (e instanceof AuthenticationError) {
-                commit('loginError', {errorCode: e.errorCode, errorMessage: e.message })
-            }
+            commit('loginError', {errorCode: e.errorCode, errorMessage: e.message })
             return false
         }
     },
@@ -63,7 +61,7 @@ const actions = {
             //     commit('loginError', {errorCode: e.errorCode, errorMessage: e.message })
             // }
             // return false
-            console.log(error)
+            // console.log(error)
         }
     }
 }
