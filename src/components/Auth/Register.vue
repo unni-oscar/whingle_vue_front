@@ -2,11 +2,29 @@
   <section class="hero">
     <div class="hero-body">
       <div class="container">
-        {{profileForm}}
-        <form>
+        <p v-if="isAuthSuccess" class="has-text-success"> {{ isAuthSuccess }}</p>
+        <form v-if="!isAuthSuccess">
           <h1 class="title">Register</h1>
           <div class="columns is-vcentered">
             <div class="column is-5">
+               <div class="field">
+                <label class="label">Profile Created by</label>
+                <div class="control">
+                  <div class="select">
+                    <!-- <select v-model="profileForm.created_by">
+                      <option>Select dropdown</option>
+                      <option>With options</option>
+                    </select> -->
+                    <dropdown 
+                    cl="col-md-4 form-control" 
+                    :options="whData.created_by" 
+                    name='created_by' 
+                    v-model="profileForm.created_by" 
+                    validation="required|min_value:1|max_value:6" ></dropdown>
+                  </div>
+                </div>
+                <!-- <p class="help">This username is available</p> -->
+              </div>
               <div class="field">
                 <label class="label">Name</label>
                 <div class="control">
@@ -27,38 +45,28 @@
                     :disabledDates="disabledDates"
                     placeholder="Select Date"
                     v-model="profileForm.dob"
+                    v-validate="'required|mature'"
                   ></datepicker>
                   {{age}}
+                  <p v-show="errors.has('dob')" class="has-text-danger"> {{ errors.first('dob') }}</p>
                   <!-- <vuejs-datepicker></vuejs-datepicker> -->
                 </div>
                 <!-- <p class="help">This username is available</p> -->
               </div>
               <div class="field">
+                 <label class="label">Gender</label>
                 <div class="control">
-                  {{profileForm.gender}}
-                  <label class="radio">
-                    <input type="radio" name="profileForm.gender">
-                    Male
-                  </label>
-                  <label class="radio">
-                    <input type="radio" name="profileForm.gender">
-                    Female
-                  </label>
+                  <radiobutton v-for="channel in whData.gender" name="gender" :rLabel="channel.name" :key="channel.id" v-model="profileForm.gender"   :rIndex="channel.id"  v-validate="'required|included:1,2'" @change="setValue" ></radiobutton>
+                  <p v-show="errors.has('gender')" class="has-text-danger"> {{ errors.first('gender') }}</p>
                 </div>
               </div>
-              
               <div class="field">
-                <label class="label">Created by</label>
+                <label class="label">Marital status</label>
                 <div class="control">
-                  <div class="select">
-                    <select v-model="profileForm.created_by">
-                      <option>Select dropdown</option>
-                      <option>With options</option>
-                    </select>
-                  </div>
-                </div>
-                <!-- <p class="help">This username is available</p> -->
+                  <radiobutton v-for="channel in whData.marital" name="marital_status" :rLabel="channel.name" :key="channel.id"  :rIndex="channel.id" v-model="profileForm.marital_status"   v-validate="'required|included:1,2,3'" @change="setValue"></radiobutton>                </div>
+                <p v-show="errors.has('marital_status')" class="has-text-danger"> {{ errors.first('marital_status') }}</p>
               </div>
+             
               <div class="field">
                 <label class="label">Email</label>
                 <div class="control has-icons-left">
@@ -88,7 +96,7 @@
                 </div>
                 <!-- <p class="help">This username is available</p> -->
               </div>
-              <div class="field">
+              <!-- <div class="field">
                 <div class="control">
                   <label class="checkbox">
                     <input type="checkbox">
@@ -96,7 +104,7 @@
                     <a href="#">terms and conditions</a>
                   </label>
                 </div>
-              </div>
+              </div> -->
               <div class="field">
                 <button
                   type="submit"
@@ -129,11 +137,12 @@ var showY = moment().subtract(22, "year").format("YYYY");
 // subtracting 1 as the index start from 0
 var oldM = moment().subtract(18, "year").format("MM") - 1;
 var oldD = moment().subtract(18, "year").format("DD");
-
+import DropDown from '../Elements/Html/Dropdown'
 import { mapActions} from 'vuex'
 import { UserService, AuthenticationError } from "../../services/user.service.js";
 
 export default {
+ 
   data() {
     return {
       disabledDates: {
@@ -141,7 +150,7 @@ export default {
       },
       age: "",
       openDate: new Date(showY, oldM),
-      isAuthSuccess: "",
+      isAuthSuccess: '',
       whData: {},
       profileForm: {
         created_by: "",
@@ -159,21 +168,30 @@ export default {
       this.age = moment().diff(moment(obj, "DD/MM/YYYY"), "years") + " Yrs";
     }
   },
+  beforeCreate () {
+      this.$store.commit('config/setLayout', 'default')
+  },
   created() {
+    this.$validator.extend('mature', {
+      getMessage(field, val) {
+          return "You should be 18 years of age"
+      },
+      validate(value, field) {
+        return  moment(value).isBefore(moment().subtract(18, 'year') )
+      }
+    })
     // store.commit("setLayout", "user");
   },
   mounted() {
-    // TODO : Change this to common config fiel with header type redefined
     // https://forum.vuejs.org/t/add-header-token-to-axios-requests-after-login-action-in-vuex/38834
-    axios
-      .get(
-        process.env.API_URL + "/register",
-        { name: this.name, email: this.email, password: this.password },
-        { headers: { "X-Requested-With": "XMLHttpRequest" } }
-      )
-      .then(response => {
-        this.whData = response.whData;
-      });
+    UserService.getRegisterData()
+    .then((resp) => {
+       this.whData = resp.data.whData;
+    })
+    .catch((err)=> {
+      //TODO: Catch registration error
+      console.log(err)
+    })
   },
   methods: {
     ...mapActions(
@@ -188,12 +206,8 @@ export default {
     handleRegister() {
       this.$validator.validateAll().then((result) => {
         if(result) {
-          const res = UserService.register({
-            name: this.profileForm.name,
-            email: this.profileForm.email,
-            password: this.profileForm.password
-          }).then(r => {
-            // TODO: SHow details based on success
+          UserService.register(this.profileForm).then(res => {
+            this.isAuthSuccess = res.data.message 
           })
           .catch(e => {
             var err = e.response.data.message
@@ -207,7 +221,7 @@ export default {
             })     
           })
         } else {
-          console.log('Validation error')
+          // TODO: Catch validation error
         }
       })
       //store.commit("setLayout", "user");

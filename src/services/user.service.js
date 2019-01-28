@@ -58,6 +58,10 @@ const UserService = {
 
         return await ApiService.post('/register', userData ) 
     },
+    async getRegisterData() {
+        return await ApiService.get('/register') 
+    },
+        
     /**
      * Refresh the access token.
     **/
