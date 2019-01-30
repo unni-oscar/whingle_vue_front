@@ -41,22 +41,34 @@ const UserService = {
             throw new AuthenticationError(error.response.status, error.response.data.message)
         }
     },
+
+    /**
+     * 
+     * @param {object} userData 
+     * @return json
+     */
     async register(userData) {
-
-        //console.log(userData)
-        // try{
-        //     const response = await ApiService.post('/register', userData ) 
-        //     return response
-        // }catch(error) { 
-        //     return error.response
-        // }
-
         return await ApiService.post('/register', userData ) 
     },
+
+
+    /**
+     * @return object
+     */
     async getRegisterData() {
         return await ApiService.get('/register') 
     },
-        
+
+
+    /**
+     * 
+     * @param {object} userData 
+     */
+    async verify(userData) {
+        return await ApiService.post('/verify', userData) 
+    },
+
+
     /**
      * Refresh the access token.
     **/
@@ -107,10 +119,6 @@ const UserService = {
             console.log(error)
             //throw new AuthenticationError(error.response.status, error.response.data.detail)
         }
-        
-        
-        // NOTE: Again, we'll cover the 401 Interceptor a bit later. 
-        // ApiService.unmount401Interceptor()
     },
     async getUser() {
         const response = await ApiService.post('/me')

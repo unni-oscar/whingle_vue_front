@@ -59,6 +59,7 @@ export default {
 
     doLogout () {
       this.logout()      
+      this.$router.replace('/login')
     }
   }
   // On logout store.commit('logout) and then redirect to login page with a success message
