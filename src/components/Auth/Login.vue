@@ -31,6 +31,10 @@
                 <button type="submit" class="button is-primary" value="Submit">Submit</button>
                 
               </div>
+              <div class="field">
+                 <router-link to="/reset-password"><a class="navbar-item">Forget password?</a></router-link>
+                
+              </div>
             </div>
           </div>
         </form>

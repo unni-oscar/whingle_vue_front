@@ -68,6 +68,15 @@ const UserService = {
         return await ApiService.post('/verify', userData) 
     },
 
+    
+    /**
+     * 
+     * @param {String} email 
+     */
+    async resetPassword(email) {
+        return await ApiService.post('/reset-password', email) 
+    },
+    
 
     /**
      * Refresh the access token.

@@ -39,7 +39,15 @@ export const router = new Router({
     {
       path: '/verify/:email/:key',
       name: 'VerifyUser',
-      component: () => import('@/components/User/VerifyUser')
+      component: () => import('@/components/User/VerifyUser'),
+      meta: { onlyWhenLoggedOut: true }
+
+    },
+    {
+      path: '/reset-password',
+      name: 'ForgetPassword',
+      component: () => import('@/components/Auth/ResetPassword'),
+      meta: { onlyWhenLoggedOut: true }
     },
     {
       path: '/search',
