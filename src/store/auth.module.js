@@ -55,7 +55,7 @@ const actions = {
         try{
             UserService.logout()
             commit('logoutSuccess')
-            router.replace('/login')
+            
         } catch(error) {
             // if (e instanceof AuthenticationError) {
             //     commit('loginError', {errorCode: e.errorCode, errorMessage: e.message })

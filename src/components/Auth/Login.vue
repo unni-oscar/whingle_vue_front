@@ -71,4 +71,3 @@ export default {
   }
 }
 </script>
-// https://medium.com/@zitko/structuring-a-vue-project-authentication-87032e5bfe16

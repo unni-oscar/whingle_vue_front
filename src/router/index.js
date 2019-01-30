@@ -37,6 +37,11 @@ export const router = new Router({
       component: () => import('@/components/Pages/Pricing')
     },
     {
+      path: '/verify/:email/:key',
+      name: 'VerifyUser',
+      component: () => import('@/components/User/VerifyUser')
+    },
+    {
       path: '/search',
       name: 'Search',
       component: () => import('@/components/Pages/Search'),
