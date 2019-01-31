@@ -31,6 +31,7 @@ export default {
         const {status, config} = error.response;
         if (status === 401 && config && !config.__isRetryRequest ) {
           this.$store.dispatch('auth/logout')
+          this.$router.replace('/login')
         } 
         return Promise.reject(error);
       }

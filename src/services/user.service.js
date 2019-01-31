@@ -77,6 +77,14 @@ const UserService = {
         return await ApiService.post('/reset-password', email) 
     },
     
+    /**
+     * 
+     * @param {Objec} old Password, New Password 
+     */
+    async changePassword(userData) {
+        return await ApiService.post('/change-password', userData) 
+    },
+    
 
     /**
      * Refresh the access token.
