@@ -1,11 +1,15 @@
 const state = {
     layout: 'default',
+    heading: '',
     loading: false,
 }
 
 const getters = {
     layout (state) {
         return state.layout
+    },
+    getHeading (state) {
+        return state.heading
     },
 }
 
@@ -18,6 +22,13 @@ const actions = {
 const mutations = {
     setLayout (state, payload) {
         state.layout = payload
+        if(payload == 'user')
+            jQuery('body').removeClass('layout-top-nav').addClass('sidebar-mini')
+        else
+            jQuery('body').removeClass('sidebar-mini').addClass('layout-top-nav')
+    },
+    setHeading (state, payload) {
+        state.heading = payload
     },
 }
 

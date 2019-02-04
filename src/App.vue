@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app" style="">
     <component v-bind:is="whichLayout"></component>
     Layout used: <strong>{{ whichLayout }}</strong>
   </div>

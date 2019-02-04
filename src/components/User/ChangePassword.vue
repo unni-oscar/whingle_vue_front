@@ -1,76 +1,74 @@
 <template>
-  <section class="hero">
-    <div class="hero-body">
-      <div class="container">
-        <div v-bind:class="[activeClass]" class="notification">{{message}}</div>
-        <form @submit.prevent="handleSubmit">
-          <h1 class="title">Forget password</h1>
-          <div class="columns is-vcentered">
-            <div class="column is-5">
-              <div class="field">
-                <label class="label">Old Password</label>
-                <div class="control">
-                  <input
-                    class="input"
-                    name="oldPassword"
-                    type="password"
-                    v-model="formData.oldPassword"
-                    placeholder="Old Password"
-                    v-validate="'required'"     
-                  >
-                  <p
-                    v-show="errors.has('oldPassword')"
-                    class="has-text-danger"
-                  >{{ errors.first('oldPassword') }}</p>
-                </div>
-              </div>
-              <div class="field">
-                <label class="label">New Password</label>
-                <div class="control">
-                  <input
-                    class="input"
-                    name="newPassword"
-                    type="password"
-                    ref="password"
-                    v-model="formData.newPassword"
-                    placeholder="Old Password"
-                    v-validate="'required|min:5|max:30'"    
-                  >
-                  <p
-                    v-show="errors.has('newPassword')"
-                    class="has-text-danger"
-                  >{{ errors.first('newPassword') }}</p>
-                </div>
-              </div>
-              <div class="field">
-                <label class="label">Confirm Password</label>
-                <div class="control">
-                  <input
-                    class="input"
-                    name="confirmPassword"
-                    type="password"
-                    v-model="formData.confirmPassword"
-                    placeholder="Confirm password"
-                    v-validate="'required|confirmed:password'"
-                  >
-                  <p
-                    v-show="errors.has('confirmPassword')"
-                    class="has-text-danger"
-                  >{{ errors.first('confirmPassword') }}</p>
-                </div>
-              </div>
-              <div class="field">
-                <button type="submit" class="button is-primary" value="Submit">Submit</button>
-              </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Change Password</h3>
+        </div>
+        <form role="form" @submit.prevent="handleSubmit">
+          <div
+            v-if="message"
+            v-bind:class="[activeClass]"
+            class="callout"
+            style="margin-bottom: 0!important;"
+          >{{message}}</div>
+          <div class="box-body">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Old Password</label>
+              <input
+                class="form-control"
+                name="oldPassword"
+                type="password"
+                v-model="formData.oldPassword"
+                placeholder="Enter Old Password"
+                v-validate="'required'"
+              >
+              <span
+                class="help-block text-red"
+                v-show="errors.has('oldPassword')"
+              >{{ errors.first('oldPassword') }}</span>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">New Password</label>
+              <input
+                class="form-control"
+                name="newPassword"
+                type="password"
+                ref="password"
+                v-model="formData.newPassword"
+                placeholder="Enter Old Password"
+                v-validate="'required|min:5|max:30'"
+              >
+              <span
+                class="help-block text-red"
+                v-show="errors.has('newPassword')"
+              >{{ errors.first('newPassword') }}</span>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Confirm Password</label>
+              <input
+                class="form-control"
+                name="confirmPassword"
+                type="password"
+                v-model="formData.confirmPassword"
+                placeholder="Confirm password"
+                v-validate="'required|confirmed:password'"
+              >
+              <span
+                class="help-block text-red"
+                v-show="errors.has('confirmPassword')"
+              >{{ errors.first('confirmPassword') }}</span>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary" value="Submit">Submit</button>
             </div>
           </div>
         </form>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 <script>
-// import axios from 'axios'
 import UserService from "../../services/user.service.js";
 export default {
   data() {
@@ -84,18 +82,22 @@ export default {
       message: ""
     };
   },
+  beforeCreate () {
+        this.$store.commit('config/setHeading', 'Change Password')
+    },
   methods: {
     handleSubmit(event) {
+      this.message = "";
       this.errors.clear();
       this.$validator.validateAll().then(res => {
         if (res) {
           UserService.changePassword(this.formData)
             .then(res => {
-              console.log("suceess");
               this.message = res.data.message;
-              this.activeClass = "is-success";
+              this.activeClass = "callout-success";
               this.formData.oldPassword = this.formData.newPassword = this.formData.confirmPassword =
                 "";
+              this.$validator.reset();
             })
             .catch(e => {
               var err = e.response.data.message;

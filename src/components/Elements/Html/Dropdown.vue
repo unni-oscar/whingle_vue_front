@@ -4,7 +4,7 @@
         <option value="">Select...</option>
         <option v-for="(option) in options" :key="option.id" :value="option.id">{{ option.name }}</option>
     </select>
-     <p v-show="errors.has(name)" class="has-text-danger"> {{ errors.first(name) }}</p>
+     <span class="help-block text-red" v-show="errors.has(name)">{{ errors.first(name) }}</span>
   </div>
 </template>
 

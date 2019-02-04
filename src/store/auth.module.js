@@ -54,6 +54,7 @@ const actions = {
     logout({commit}) {
         try{
             UserService.logout()
+            commit('config/setLayout', 'default', { root: true })
             commit('logoutSuccess')
             
         } catch(error) {
