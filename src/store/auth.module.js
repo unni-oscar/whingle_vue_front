@@ -47,6 +47,10 @@ const actions = {
         }
     },
     
+    logsetError({commit}, {code,msg}) {
+        commit('loginError', {code,msg} );
+    },
+
     /**
      * 
      * @exception AuthenticationError 
@@ -54,6 +58,7 @@ const actions = {
     logout({commit}) {
         try{
             UserService.logout()
+            commit('config/setLayout', 'default', { root: true })
             commit('logoutSuccess')
             
         } catch(error) {

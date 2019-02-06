@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div v-bind:class="[activeClass]" class="notification">{{message}}</div>
+    <div v-if="message"
+                v-bind:class="[activeClass]"
+                class="callout"
+                style="margin-bottom: 0!important;"
+              >{{message}}</div>
   </div>
 </template>
 <script>
@@ -27,11 +31,11 @@ export default {
       UserService.verify(userData)
         .then(res => {          
           this.message = res.data.message;
-          this.activeClass = "is-success";
+          this.activeClass = "callout-success";
         })
         .catch(e => {
           this.message = e.response.data.message;
-          this.activeClass = "is-danger";
+          this.activeClass = "callout-danger";
         });
     }
   }

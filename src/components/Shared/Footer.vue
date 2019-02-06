@@ -1,16 +1,19 @@
 <template>
-    <!-- Footer Start -->
-    <footer class="footer">
-      <div class="content has-text-centered">
-        <p>
-          <strong>Page Footer</strong> by <a href="#">Jeremy Thomas</a>. The source code is licensed
-          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>
-        </p>
+  <!-- Footer Start -->
+  <footer class="footer">
+    <div class="container">
+      <div class="pull-right hidden-xs">
+        
       </div>
-    </footer>
-    <!-- Footer Start -->
+      <strong>Copyright © 2019
+        <a href="http://satsuntech.com">Satsun Technologies</a>.
+      </strong> All rights
+      reserved.
+    </div>
+    <!-- /.container -->
+  </footer>
+  <!-- Footer Start -->
 </template>
 <script>
-export default {
-}
+export default {};
 </script>

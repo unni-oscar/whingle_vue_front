@@ -1,42 +1,39 @@
 <template>
-  <section class="hero">
-    <div class="hero-body">
-      <div class="container">
-        <div v-bind:class="[activeClass]" class="notification">{{message}}</div>
-        <form @submit.prevent="handleSubmit">
-          <h1 class="title">Forget password</h1>
-          <div class="columns is-vcentered">
-            <div class="column is-5">
-              <div class="field">
-                <label class="label">Email</label>
-                <div class="control has-icons-left">
-                  <input
-                    class="input"
+  <div class="row">
+    <div class="col-md-6">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Forget password</h3>
+        </div>
+        <form role="form" @submit.prevent="handleSubmit">
+          <div class="box-body">
+            <div class="form-group">
+              <div v-if="message"
+                v-bind:class="[activeClass]"
+                class="callout"
+                style="margin-bottom: 0!important;"
+              >{{message}}</div>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input
+                    class="form-control"
                     v-model="email"
                     type="text"
                     name="email"
                     v-validate="'required|email'"
-                    placeholder="Email"
+                    placeholder="Enter email"
                   >
-                  <span class="icon is-small is-left">
-                    <i class="fas fa-envelope"></i>
-                  </span>
-                  <p
-                    v-show="errors.has('email')"
-                    class="has-text-danger"
-                  >{{ errors.first('email') }}</p>
-                </div>
-                <!-- <p class="help">This username is available</p> -->
-              </div>
-              <div class="field">
-                <button type="submit" class="button is-primary" value="Submit">Submit</button>
-              </div>
+              <span class="help-block text-red" v-show="errors.has('email')">{{ errors.first('email') }}</span>
+            </div>
+             <div class="form-group">
+                <button type="submit" class="btn btn-primary" value="Submit">Submit</button>
             </div>
           </div>
         </form>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 <script>
 // import axios from 'axios'
@@ -64,7 +61,7 @@ export default {
           UserService.resetPassword({ email: this.email })
             .then(res => {
               this.message = res.data.message;
-              this.activeClass = "is-success";
+              this.activeClass = "callout-success";
             })
             .catch(e => {
               // Adding error to error bag

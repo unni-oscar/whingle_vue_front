@@ -84,6 +84,14 @@ const UserService = {
     async changePassword(userData) {
         return await ApiService.post('/change-password', userData) 
     },
+
+     /**
+     * 
+     * @param null
+     */
+    async myProfile() {
+        return await ApiService.get('/profile') 
+    },
     
 
     /**

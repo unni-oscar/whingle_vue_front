@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app" style="">
     <component v-bind:is="whichLayout"></component>
     Layout used: <strong>{{ whichLayout }}</strong>
   </div>
@@ -30,6 +30,7 @@ export default {
       error => {
         const {status, config} = error.response;
         if (status === 401 && config && !config.__isRetryRequest ) {
+          this.$store.dispatch('auth/setError', { code : '1' , msg : 'Session timed out' })
           this.$store.dispatch('auth/logout')
           this.$router.replace('/login')
         } 

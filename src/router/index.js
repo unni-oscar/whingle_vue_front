@@ -2,12 +2,14 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Shared/Home'
 import Login from '@/components/Auth/Login'
+import Profile from '@/components/User/Profile'
 import { TokenService } from '@/services/storage.service'
 
 Vue.use(Router)
 
 export const router = new Router({
   mode: 'history', // Removing # from the url
+  linkExactActiveClass: 'active',
   routes: [
     {
       path: '/',
@@ -57,7 +59,7 @@ export const router = new Router({
     },
     {
       path: '/user',
-      component: () => import('@/components/User/Dashboard'),
+      component: () => import('@/components/Elements/ContentWrap'),
       meta: { requiresAuth: true },
       children:[
         {
@@ -65,6 +67,83 @@ export const router = new Router({
           name:'Dashboard',
           components: {
             mainarea: () => import('@/components/User/Summary')
+          }
+        },
+        {
+          path: 'messages',
+          name: 'Messages',
+          components: {
+            mainarea: () => import('@/components/User/Messages')
+          }
+        },
+        {
+          path: 'favourites',
+          name: 'Favourites',
+          components: {
+            mainarea: () => import('@/components/User/Favourites')
+          }
+        },
+        {
+          path: 'preference',
+          name: 'Preference',
+          components: {
+            mainarea: () => import('@/components/User/Preference')
+          }
+        },
+        {
+          path: 'subscription',
+          name: 'Subscription',
+          components: {
+            mainarea: () => import('@/components/User/Subscription')
+          }
+        },
+        {
+          path: 'blacklist',
+          name: 'Blacklist',
+          components: {
+            mainarea: () => import('@/components/User/Blacklist')
+          }
+        },
+        {
+          path: 'requests',
+          name: 'Requests',
+          components: {
+            mainarea: () => import('@/components/User/Requests')
+          }
+        },
+        {
+          path: 'payments',
+          name: 'Payments',
+          components: {
+            mainarea: () => import('@/components/User/Payments')
+          }
+        },
+        {
+          path: 'interests',
+          name: 'Interests',
+          components: {
+            mainarea: () => import('@/components/User/Interests')
+          }
+        },
+        {
+          path: 'photos',
+          name: 'Photos',
+          components: {
+            mainarea: () => import('@/components/User/Photos')
+          }
+        },
+        {
+          path: 'horoscope',
+          name: 'Horoscope',
+          components: {
+            mainarea: () => import('@/components/User/Horoscope')
+          }
+        },
+        {
+          path: 'settings',
+          name: 'Settings',
+          components: {
+            mainarea: () => import('@/components/User/Settings')
           }
         },
         {
