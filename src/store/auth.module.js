@@ -47,6 +47,10 @@ const actions = {
         }
     },
     
+    logsetError({commit}, {code,msg}) {
+        commit('loginError', {code,msg} );
+    },
+
     /**
      * 
      * @exception AuthenticationError 
