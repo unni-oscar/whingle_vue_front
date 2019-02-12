@@ -13,7 +13,7 @@ import  { store }  from './store'
 import ApiService from './services/api.service'
 import { TokenService } from './services/storage.service'
 import VeeValidate from 'vee-validate'
-
+import { i18n } from './lib/i18n'
 // Vue.use(Buefy)
 Vue.use(VeeValidate)
 
@@ -32,6 +32,7 @@ new Vue({
   el: '#app',
   router,
   store,
+  i18n,
   components: { App },
   template: '<App/>'
 })
