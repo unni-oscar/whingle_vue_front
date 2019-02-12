@@ -47,8 +47,8 @@ const actions = {
         }
     },
     
-    logsetError({commit}, {code,msg}) {
-        commit('loginError', {code,msg} );
+    setError({commit}, {code,msg}) {
+        commit('loginError', {errorCode: code , errorMessage: msg} );
     },
 
     /**
