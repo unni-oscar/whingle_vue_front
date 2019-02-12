@@ -187,7 +187,7 @@ export default {
   created() {
     this.$validator.extend("mature", {
       getMessage(field, val) {
-        return "You should be 18 years of age";
+        return this.$t("years18") 
       },
       validate(value, field) {
         return moment(value).isBefore(moment().subtract(18, "year"));
