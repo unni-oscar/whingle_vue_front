@@ -9,6 +9,7 @@ export const i18n = new VueI18n({
             hello: 'Hello',
             form_error: 'Please fix the errors',
             years18 : 'You should be 18 years of age',
+            no_records : 'No records found'
         },       
     }
 })
