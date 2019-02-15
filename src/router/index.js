@@ -51,12 +51,12 @@ export const router = new Router({
       component: () => import('@/components/Auth/ResetPassword'),
       meta: { onlyWhenLoggedOut: true }
     },
-    {
-      path: '/search',
-      name: 'Search',
-      component: () => import('@/components/Pages/Search'),
-      meta: { requiresAuth: true }
-    },
+    // {
+    //   path: '/search',
+    //   name: 'Search',
+    //   component: () => import('@/components/Pages/Search'),
+    //   meta: { requiresAuth: true }
+    // },
     {
       path: '/user',
       component: () => import('@/components/Elements/ContentWrap'),
@@ -67,6 +67,13 @@ export const router = new Router({
           name:'Dashboard',
           components: {
             mainarea: () => import('@/components/User/Summary')
+          }
+        },
+        {
+          path: 'search',
+          name: 'Search',
+          components: {
+            mainarea: () => import('@/components/Pages/Search')
           }
         },
         {

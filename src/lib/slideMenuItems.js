@@ -6,6 +6,14 @@ module.exports = [
   },
   {
     type: 'tree',
+    icon: 'fa fa-search',
+    name: 'Search',
+    router: {
+      name: 'Search'
+    }
+  },
+  {
+    type: 'tree',
     icon: 'fa fa-user',
     name: 'Profile',
     router: {
