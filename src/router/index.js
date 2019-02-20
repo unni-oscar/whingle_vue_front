@@ -51,6 +51,7 @@ export const router = new Router({
       component: () => import('@/components/Auth/ResetPassword'),
       meta: { onlyWhenLoggedOut: true }
     },
+   
     // {
     //   path: '/search',
     //   name: 'Search',
@@ -67,6 +68,13 @@ export const router = new Router({
           name:'Dashboard',
           components: {
             mainarea: () => import('@/components/User/Summary')
+          }
+        },
+        {
+          path: 'profile/:id',
+          name: 'ProfileShow',
+          components: {
+            mainarea: () => import('@/components/User/ShowProfile')
           }
         },
         {
