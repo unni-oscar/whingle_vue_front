@@ -658,7 +658,6 @@ export default {
   },
   computed: {
     "profileForm.dob": function(obj) {
-      console.log("ssss");
       this.age = moment().diff(moment(obj, "DD/MM/YYYY"), "years") + " Yrs";
     }
   },

@@ -49,37 +49,43 @@
         </div>
       </form>
       <div class="col-md-6">
-        <div class="row"  v-for="record in searchList" style="border:1px solid #b8c7ce;margin-bottom:20px;">
-         
-            <div class="col-md-12" style="border:1px solid #b8c7ce;"> 
-              <div class="col-md-8" style="">
-                <b>{{record.name}}</b> Last online: 4 hrs ago 
-                <br>
-                Lives in {{record.profile.country.name}}, {{record.profile.state.name}}, {{record.profile.city.name}}
-              </div>
-              <div class="col-md-4" style="text-align:right">
-                x
-                <br>
-                Created by: Parents
-              </div>
+        <div
+          class="row"
+          v-for="record in searchList"
+          style="border:1px solid #b8c7ce;margin-bottom:20px;"
+        >
+          <div class="col-md-12" style="border:1px solid #b8c7ce;">
+            <div class="col-md-8" style>
+              <b>{{record.name}}</b> Last online: 4 hrs ago
+              <br>
+              Lives in {{record.profile.country.name}}, {{record.profile.state.name}}, {{record.profile.city.name}}
             </div>
-            <div class="col-md-12">
-              <div class="col-md-3" style="font-size:10px;text-align:center">
-                View Profile <br>
-                <img src="http://lorempixel.com/100/100/people" alt=""> <br>
-                1 of 4
-              </div>
-              <div class="col-md-9">
-               19 Yrs / Single <br>
-               Education: MSc Computer Science <br>
-               Occupation: IT Manager <br>
-               Religion/Caste: Hindu / Ezhava <br>
-               Annual Income: 12,000,00 <br>
+            <div class="col-md-4" style="text-align:right">x
+              <br>Created by: Parents
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-3" style="font-size:10px;text-align:center">
+              <router-link target="_blank"
+                :to="{name:'ProfileShow', params: { id: record.profile.secret_id }}"
+              >View profile</router-link>
 
-              </div>
+              <br>
+              <img src="http://lorempixel.com/100/100/people" alt>
+              <br>1 of 4
             </div>
-            <div class="col-md-12" style="font-size:10px;text-align:right;border:1px solid #b8c7ce;">Send Message | Express Interest | Add to favourites | Request Contacts | Request Horoscope | Print | Report</div>
-         
+            <div class="col-md-9">19 Yrs / Single
+              <br>Education: MSc Computer Science
+              <br>Occupation: IT Manager
+              <br>Religion/Caste: Hindu / Ezhava
+              <br>Annual Income: 12,000,00
+              <br>
+            </div>
+          </div>
+          <div
+            class="col-md-12"
+            style="font-size:10px;text-align:right;border:1px solid #b8c7ce;"
+          >Send Message | Express Interest | Add to favourites | Request Contacts | Request Horoscope | Print | Report</div>
         </div>
       </div>
     </div>
@@ -106,11 +112,11 @@ export default {
     validateBeforeSubmit() {
       this.$validator.validateAll().then(result => {
         if (result) {
-          this.message = '';
+          this.message = "";
           ApiService.post("/search", this.searchForm)
             .then(r => {
               console.log(r.data.length);
-              if(0 == r.data.length) {
+              if (0 == r.data.length) {
                 this.activeClass = "callout-danger";
                 this.message = this.$t("no_records");
               }
