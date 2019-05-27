@@ -8,14 +8,22 @@ import Vue from 'vue'
 import App from './App'
 import { router } from './router'
 import  { store }  from './store'
+// import Notifications from 'vue-notification'
+
 // import Buefy from 'buefy'
 // import 'buefy/dist/buefy.css'
 import ApiService from './services/api.service'
 import { TokenService } from './services/storage.service'
 import VeeValidate from 'vee-validate'
 import { i18n } from './lib/i18n'
+import { dict } from './lib/customErrorMessages'
+
 // Vue.use(Buefy)
 Vue.use(VeeValidate)
+// Vue.use(Notifications)
+// TODO: Need to get rid of if as its been used twice
+import { Validator } from "vee-validate";
+Validator.localize('en', dict);
 
 Vue.config.productionTip = false
 
