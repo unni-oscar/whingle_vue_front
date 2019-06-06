@@ -1,5 +1,6 @@
 <template>
   <div id="app" style="">
+    <notifications group="foo" position="bottom right" />
     <component v-bind:is="whichLayout"></component>
     Layout used: <strong>{{ whichLayout }}</strong>
   </div>

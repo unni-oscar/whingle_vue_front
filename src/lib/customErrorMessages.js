@@ -17,6 +17,15 @@ export const dict = {
         },
         gender: {
             required: () => 'Please select gender'
+        },
+        ageFrom: {
+            required: () => 'Please select age'
+        },
+        ageTo: {
+            required: () => 'Please select age'
+        },
+        message: {
+            required: () => 'Please type your message'
         }
     }
 };

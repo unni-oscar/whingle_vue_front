@@ -9,7 +9,9 @@ export const i18n = new VueI18n({
             hello: 'Hello',
             form_error: 'Please fix the errors',
             years18 : 'You should be 18 years of age',
-            no_records : 'No records found'
+            no_records : 'No records found',
+            msg_sent_success: 'Message sent successfully.',
+            msg_sent_error: 'Error'
         },       
     }
 })

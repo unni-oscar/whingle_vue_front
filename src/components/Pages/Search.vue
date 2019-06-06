@@ -85,7 +85,7 @@
           <div
             class="col-md-12"
             style="font-size:10px;text-align:right;border:1px solid #b8c7ce;"
-          >Send Message | Express Interest | Add to favourites | Request Contacts | Request Horoscope | Print | Report</div>
+          >Send Message | Express Interest | Add to favourites</div>
         </div>
       </div>
     </div>

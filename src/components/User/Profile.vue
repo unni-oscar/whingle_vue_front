@@ -713,9 +713,13 @@ export default {
         this.religions = response.religions;
         this.jobs = response.jobs;
         this.motherTongues = response.motherTongues;
+        // Adding values to fields
         this.profileFields.forEach(element => {
           this.profileForm[element.name] = response.profile[element.name];
         });
+        // Displaying hidden data (to public) here
+        this.profileForm['contact_number'] = response.contact.number;
+        this.profileForm['address'] = response.contact.address;
       })
       .catch(e => {});
   },
@@ -731,6 +735,7 @@ export default {
               window.scrollTo(0, 0);
             })
             .then(() => {
+              // Removing all the errors from validator
               this.$validator.reset();
             })
             .catch(e => {
@@ -745,14 +750,11 @@ export default {
                   msg: err[item][0]
                 });
               });
-
-              // console.log(e.response);
               window.scrollTo(0, 0);
             });
         } else {
           this.activeClass = "callout-danger";
           this.message = this.$t("form_error");
-          //if validation error
           window.scrollTo(0, 0);
         }
       });
