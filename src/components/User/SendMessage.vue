@@ -1,11 +1,9 @@
 <template>
 
   <div >
-  <div v-if="!isPaid" class="callout callout-info">
-    You need to upgrade your subscription to send message
-    <button>Upgrade Subscription</button>
-  </div>
-  <form v-if="isPaid" role="form" @submit.prevent="sendMessage">
+  <div v-if="isPaid">
+  <div v-if="isBlacklisted" class="callout callout-danger">This user is not acceppting anymore messages from you!</div>  
+  <form v-else role="form" @submit.prevent="sendMessage">
     <div class="box-body">
       <div class="form-group">
         <textarea
@@ -28,6 +26,11 @@
     </div>
   </form>
   </div>
+  <div v-else class="callout callout-warning">
+    You need to upgrade your subscription to send message
+    <button>Upgrade Subscription</button>
+  </div>
+  </div>
 </template>
 <script>
 import ApiService from "../../services/api.service.js";
@@ -40,14 +43,18 @@ export default {
     return { 
       message: "",
       name: "",
-      isPaid: false
+      isPaid: false,
+      isBlacklisted: false
     };
   },
   mounted() {
-    ApiService.get('isPaidSub')
+    ApiService.post('hasMsgPermission', {
+      id: this.$route.params.id
+    })
     .then(r => {
       console.log(r.data.value)
-      this.isPaid = r.data.value
+      this.isPaid = r.data.paid
+      this.isBlacklisted = r.data.blacklist
     })
   },
   methods: {
