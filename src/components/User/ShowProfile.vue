@@ -11,7 +11,7 @@
       >{{status}}</div>
     </div>
     <div class="col-md-10">
-      <button @click="isOpen = !isOpen">Send Message</button> | <a href="#" @click.prevent="expressInterest(true)">Express Interest</a>  | Add to favourites | Request Contacts | Request Horoscope | Request Photo | Print | Report
+      <button @click="isOpen = !isOpen">Send Message</button> | <a href="#" @click.prevent="expressInterest(true)">Express Interest</a>  | <a href="#" @click.prevent="addToFav()">Add to favourites</a> | Request Contacts | Request Horoscope | Request Photo | Print | Report
     </div>
     <div class="col-md-10" id="sendMessage" v-show="isOpen">
       <sendMessage :open=isOpen @closeMessaging="isOpen = $event"></sendMessage>
@@ -243,6 +243,25 @@ export default {
     this.id = this.$route.params.id;
   },
   methods: {
+    addToFav() {
+      ApiService.post("addToFavourite", {
+        id: this.$route.params.id
+      }).then(r => {
+        this.$notify({
+          group: "foo",
+          type: "success",
+          title:  this.$t('success') ,
+          text: r.data.message 
+        });
+      }).catch(e => {
+        this.$notify({
+            group: "foo",
+            type: "error",
+            title:  this.$t('error') ,
+            text: this.$t('favourite_error')
+        });
+      })
+    },
     expressInterest(checkExist) {
       ApiService.post("sendInterest", {
         id: this.$route.params.id,
@@ -270,7 +289,6 @@ export default {
           }
         })
         .catch(e => {
-          console.log(e.response)
           this.$notify({
             group: "foo",
             type: "error",
