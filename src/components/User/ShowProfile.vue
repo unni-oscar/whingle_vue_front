@@ -11,7 +11,12 @@
       >{{status}}</div>
     </div>
     <div class="col-md-10">
-      <button @click="isOpen = !isOpen">Send Message</button> | <a href="#" @click.prevent="expressInterest(true)">Express Interest</a>  | <a href="#" @click.prevent="addToFav()">Add to favourites</a> | Request Contacts | Request Horoscope | Request Photo | Print | Report
+      <button @click="isOpen = !isOpen">Send Message</button> | 
+      <a href="#" @click.prevent="expressInterest(true)">Express Interest</a>  | 
+      <a href="#" @click.prevent="addToFav()">Add to favourites</a> | 
+      <a href="#" @click.prevent="sendRequest('C')">Request Contacts</a> |
+      <a href="#" @click.prevent="sendRequest('H')">Request Horoscope</a> |
+      <a href="#" @click.prevent="sendRequest('P')">Request Photo</a> | Print | Report
     </div>
     <div class="col-md-10" id="sendMessage" v-show="isOpen">
       <sendMessage :open=isOpen @closeMessaging="isOpen = $event"></sendMessage>
@@ -243,6 +248,27 @@ export default {
     this.id = this.$route.params.id;
   },
   methods: {
+    sendRequest(type) {
+      ApiService.post("sendRequest", {
+        id: this.$route.params.id,
+        type: type,
+        check: true
+      }).then(r => {
+        this.$notify({
+          group: "foo",
+          type: "success",
+          title:  this.$t('success') ,
+          text: r.data.message 
+        });
+      }).catch(e => {
+        this.$notify({
+            group: "foo",
+            type: "error",
+            title:  this.$t('error') ,
+            text: e.response.data.message
+        });
+      })
+    },
     addToFav() {
       ApiService.post("addToFavourite", {
         id: this.$route.params.id
@@ -258,7 +284,7 @@ export default {
             group: "foo",
             type: "error",
             title:  this.$t('error') ,
-            text: this.$t('favourite_error')
+            text: e.response.data.message
         });
       })
     },
