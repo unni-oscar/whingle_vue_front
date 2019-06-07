@@ -9,6 +9,7 @@ import App from './App'
 import { router } from './router'
 import  { store }  from './store'
 import Notifications from 'vue-notification'
+import VModal from 'vue-js-modal'
 
 // import Buefy from 'buefy'
 // import 'buefy/dist/buefy.css'
@@ -21,6 +22,7 @@ import { dict } from './lib/customErrorMessages'
 // Vue.use(Buefy)
 Vue.use(VeeValidate)
 Vue.use(Notifications)
+Vue.use(VModal)
 // TODO: Need to get rid of if as its been used twice
 import { Validator } from "vee-validate";
 Validator.localize('en', dict);

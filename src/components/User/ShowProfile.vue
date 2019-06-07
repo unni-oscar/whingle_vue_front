@@ -1,5 +1,7 @@
 <template>
   <div class="row">
+    <modalConfirm :question=question @modalAction="againInterest($event, false)"></modalConfirm>
+    
     <div class="col-md-10">
       <div
         v-if="status"
@@ -9,7 +11,7 @@
       >{{status}}</div>
     </div>
     <div class="col-md-10">
-      <button @click="isOpen = !isOpen">Send Message</button> Send Message | Express Interest | Add to favourites | Request Contacts | Request Horoscope | Print | Report
+      <button @click="isOpen = !isOpen">Send Message</button> | <a href="#" @click.prevent="expressInterest(true)">Express Interest</a>  | Add to favourites | Request Contacts | Request Horoscope | Request Photo | Print | Report
     </div>
     <div class="col-md-10" id="sendMessage" v-show="isOpen">
       <sendMessage :open=isOpen @closeMessaging="isOpen = $event"></sendMessage>
@@ -201,6 +203,7 @@
 import ApiService from "../../services/api.service.js";
 import helper from "../Services/helper.js";
 import SendMessage from './SendMessage'
+import ModalConfirm from '../Shared/ModalConfirm'
 export default {
   data() {
     return {
@@ -209,6 +212,7 @@ export default {
       isOpen: false,
       message: "",
       name: "",
+      question: '',
       profile: {
         religion: {},
         caste: {},
@@ -221,14 +225,14 @@ export default {
     };
   },
   components: { 
-    SendMessage
+    SendMessage,
+    ModalConfirm
   },
   beforeCreate() {
     this.$store.commit("config/setHeading", "Profile");
     ApiService.get("/show/" + this.$route.params.id)
       .then(r => {
         this.profile = r.data;
-        console.log(this.profile.about);
       })
       .catch(e => {
         this.activeClass = "callout-danger";
@@ -239,6 +243,45 @@ export default {
     this.id = this.$route.params.id;
   },
   methods: {
+    expressInterest(checkExist) {
+      ApiService.post("sendInterest", {
+        id: this.$route.params.id,
+        check: checkExist
+      })
+        .then(r => {
+          if(checkExist) {
+            if(r.data.exists) {
+              this.$modal.show('m-confirm', { question: this.$t('interest_again') });
+            } else {
+              this.$notify({
+                group: "foo",
+                type: "success",
+                title:  this.$t('interest_sent_success') ,
+                text: r.data.message
+              });
+            }
+          } else {
+            this.$notify({
+              group: "foo",
+              type: "success",
+              title:  this.$t('interest_sent_success') ,
+              text: r.data.message
+            });
+          }
+        })
+        .catch(e => {
+          console.log(e.response)
+          this.$notify({
+            group: "foo",
+            type: "error",
+            title:  this.$t('error') ,
+            text: e.response.data.message
+          });
+        });
+    },
+    againInterest(val, checkExist) {
+      if(val) this.expressInterest(checkExist)
+    },
     getKeyVal(key, arrKey) {
       return helper.getValueByKey(key, arrKey);
     },
@@ -252,27 +295,6 @@ export default {
       this.isOpen = false;
       this.$validator.reset();
     },
-    sendMessage() {
-      this.$validator.validateAll().then(result => {
-        if (result) {
-          ApiService.post("sendMessage", {
-            id: this.$route.params.id,
-            message: this.message
-          })
-            .then(r => {
-              this.$notify({
-                group: "foo",
-                type: "success",
-                title: "Message sent successfully",
-                text: "Your message has been send successfully."
-              });
-            })
-            .catch(e => {});
-        } else {
-          // TODO: Catch validation error
-        }
-      });
-    }
   }
 };
 </script>

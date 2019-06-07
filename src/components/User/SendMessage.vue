@@ -52,7 +52,6 @@ export default {
       id: this.$route.params.id
     })
     .then(r => {
-      console.log(r.data.value)
       this.isPaid = r.data.paid
       this.isBlacklisted = r.data.blacklist
     })

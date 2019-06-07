@@ -11,7 +11,10 @@ export const i18n = new VueI18n({
             years18 : 'You should be 18 years of age',
             no_records : 'No records found',
             msg_sent_success: 'Message sent successfully.',
-            msg_sent_error: 'Error'
+            interest_sent_success: 'Interest sent successfully.',
+            msg_sent_error: 'Error',
+            error: 'Error!',
+            interest_again: 'You have already sent interest. Would you like to send again?'
         },       
     }
 })
