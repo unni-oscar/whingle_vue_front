@@ -16,6 +16,8 @@ export const i18n = new VueI18n({
             error: 'Error!',
             success: 'Success',
             interest_again: 'You have already sent interest. Would you like to send again?',
+            reply_interest_accept: 'Are you sure you want to accept the interest?',
+            reply_interest_reject: 'Are you sure you want to reject the interest?',
             favourite_error: 'Could not add to favourites. Please try again'
         },       
     }
