@@ -8,16 +8,16 @@
     ></modalConfirm>
     <ul class="nav nav-tabs">
       <li class="active">
-        <a href="#1" data-toggle="tab">Interest Received</a>
+        <a href="#interest1" data-toggle="tab">Interest Received</a>
       </li>
       <li>
-        <a href="#2" data-toggle="tab">Interest Sent</a>
+        <a href="#interest2" data-toggle="tab">Interest Sent</a>
       </li>
     </ul>
 
     <div class="tab-content">
       <!------------- Tab 1 -------------------------->
-      <div class="tab-pane active" id="1">
+      <div class="tab-pane active" id="interest1">
         <div class="tableFilters">
           <div class="control">
             <div class="select">
@@ -96,7 +96,7 @@
       </div>
       <!------------- End Tab 1 -------------------------->
       <!------------- Tab 2 -------------------------->
-      <div class="tab-pane" id="2">
+      <div class="tab-pane" id="interest2">
         <div class="tableFilters">
           <div class="control">
             <div class="select">
