@@ -2,7 +2,7 @@
   <div id="favourites" class="col-md-10">
     <datatable :columns="columns" :sortKey="sortKey" :sortOrder="sortOrder" @sort="sortBy">
       <tbody>
-        <tr v-for="favourite in favourites" :key="favourite.id">
+        <tr v-for="(favourite, index) in favourites" :key="favourite.id">
           <td>
             <div class="row" style="border:1px solid #b8c7ce;margin-bottom:20px;">
               <div class="col-md-12" style="border:1px solid #b8c7ce;">
@@ -39,7 +39,7 @@
             </div>
           </td>
           <td >
-            <a  class="btn btn-app">
+            <a  class="btn btn-app" @click="deleteFromFavourite(index, favourite.id)">
               <i class="fa fa-times"></i>Remove
             </a>
           </td>
@@ -48,7 +48,8 @@
         <tr></tr>
       </tbody>
     </datatable>
-    <pagination
+    
+    <pagination v-if="pagination.total > 0"
       :pagination="pagination"
       @prev="getFavourites(pagination.prevpageUrl)"
       @next="getFavourites(pagination.nextpageUrl)"
@@ -102,6 +103,30 @@ export default {
     this.getFavourites();
   },
   methods: {
+    deleteFromFavourite(index, id) {
+        ApiService.post('/removeFromFav', {
+          id: id,
+        })
+        .then(r => {
+          this.getFavourites()
+          this.$notify({
+            group: "foo",
+            type: "success",
+            title: r.data.status,
+            text: r.data.message
+          });
+          
+        })
+        .catch(e => {
+          this.$notify({
+            group: "foo",
+            type: "error",
+            title:  r.data.status,
+            text: r.data.message
+          });
+        })
+      
+    },
     sortBy(key) {
       this.sortKey = key;
       this.sortOrders[key] = this.sortOrders[key] * -1;

@@ -294,6 +294,7 @@ export default {
         check: checkExist
       })
         .then(r => {
+          // If previous interest exists
           if(checkExist) {
             if(r.data.exists) {
               this.$modal.show('m-confirm', { question: this.$t('interest_again') });
@@ -324,7 +325,7 @@ export default {
         });
     },
     againInterest(val, checkExist) {
-      if(val) this.expressInterest(checkExist)
+      if(val.userAction) this.expressInterest(checkExist)
     },
     getKeyVal(key, arrKey) {
       return helper.getValueByKey(key, arrKey);

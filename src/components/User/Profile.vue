@@ -587,6 +587,10 @@
                 class="form-control"
                 v-model="profileForm.contact_number"
               >
+              <span
+                  class="help-block text-red"
+                  v-show="errors.has('contact_number')"
+                >{{ errors.first('contact_number') }}</span>
             </div>
           </div>
           <div class="col-md-4">
@@ -594,6 +598,10 @@
               <label for="exampleInputEmail1">Address</label>
               <input type="text" name="address" class="form-control" v-model="profileForm.address">
             </div>
+             <span
+                  class="help-block text-red"
+                  v-show="errors.has('address')"
+                >{{ errors.first('address') }}</span>
           </div>
         </div>
         <div class="row">
@@ -732,6 +740,7 @@ export default {
               this.states = r.data;
               this.activeClass = "callout-success";
               this.message = r.data.message;
+              this.$validator.reset();
               window.scrollTo(0, 0);
             })
             .then(() => {
@@ -744,7 +753,7 @@ export default {
               var err = e.response.data.message;
               let vm = this;
               // Adding server side error to veevalidate error bag
-              Object.keys(err).forEach(function(item) {
+              Object.keys(err).forEach(function(item) {             
                 vm.errors.add({
                   field: item,
                   msg: err[item][0]
