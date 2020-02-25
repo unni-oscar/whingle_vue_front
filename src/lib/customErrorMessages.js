@@ -26,6 +26,15 @@ export const dict = {
         },
         message: {
             required: () => 'Please type your message'
+        },
+        oldPassword: {
+            required: () => 'Please enter your old password'
+        },
+        newPassword: {
+            required: () => 'Please enter new password'
+        },
+        confirmPassword: {
+            required: () => 'Re-type new password '
         }
     }
 };
